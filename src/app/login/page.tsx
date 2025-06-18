@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { setAuthData } from '@/utils/auth';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,10 +34,8 @@ export default function LoginPage() {
       }
 
       if (data.success) {
-        // Save JWT token and user info to localStorage
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        localStorage.setItem('userRole', data.user.type);
+        // Use utility function to save auth data consistently
+        setAuthData(data.token, data.user, data.user.type);
 
         // Redirect based on user role
         if (data.user.type === 'celebrity') {
